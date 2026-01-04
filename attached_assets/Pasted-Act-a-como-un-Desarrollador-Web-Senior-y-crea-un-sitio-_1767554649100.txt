@@ -1,0 +1,57 @@
+Actúa como un Desarrollador Web Senior y crea un sitio web de portafolio personal moderno, responsivo y de alto impacto para mí.
+
+**Stack Tecnológico:**
+- React (Vite)
+- Tailwind CSS (para estilos rápidos y modernos)
+- Framer Motion (para animaciones suaves en la entrada de elementos)
+- Lucide React (para íconos)
+
+**Estilo Visual:**
+- Tema oscuro (Dark Mode).
+- Tipografía limpia (Sans-serif).
+- Diseño minimalista pero profesional.
+
+**Estructura del Sitio:**
+1. **Hero Section:** Nombre, título breve, foto (placeholder) y botones a LinkedIn/GitHub.
+2. **Sobre Mí:** Breve resumen profesional.
+3. **Experiencia:** Línea de tiempo vertical o tarjetas.
+4. **Proyectos:** Tarjetas con descripción, tecnologías y logros.
+5. **Habilidades:** Categorizadas (Lenguajes, Frameworks, Herramientas).
+6. **Contacto:** Pie de página con enlaces y correo.
+
+**Contenido (Úsalo textualmente):**
+
+**Perfil:**
+- Nombre: Paulo Aquiles Sandoval
+- Título: Ingeniero de Software & Especialista en Ciberseguridad
+- Ubicación: Morelia, Michoacán, MX
+- Email: paulo.aquiles.sandoval@outlook.com
+- Teléfono: +52 443 134 7177
+- LinkedIn: https://www.linkedin.com/in/aquilessandoval
+- GitHub: https://github.com/AquilesSandoval
+
+**Experiencia Profesional:**
+
+1. **AIYM** | Morelia, MX / España (Remoto) | 2025 - Presente
+   - *Rol:* Miembro Clave del Equipo de Ingeniería (Full Stack).
+   - *Descripción:* Parte fundamental en el desarrollo de una suite tecnológica integral para una empresa internacional con sede en España, dedicada al entrenamiento profesional de atletas de alto rendimiento (Running, Triatlón, Natación).
+   - *Logros:* Desarrollo y despliegue de tres productos centrales: una Aplicación Móvil para atletas, una Landing Page corporativa y un Panel Administrativo (Admin Page) para la gestión de entrenamientos. Optimización de la experiencia de usuario para gestión de datos complejos.
+
+2. **AVOTEX** | Morelia, MX | Ene 2023 - Presente
+   - *Rol:* Co-Fundador y Desarrollador Core.
+   - *Descripción:* Startup AgTech enfocada en la detección de enfermedades en aguacates mediante IA.
+   - *Logros:* Implementación de modelos de Deep Learning con TensorFlow y Python integrados en React Native. Ganador del 1er Lugar Estatal y Finalista Nacional en InnovaTec 2025.
+
+**Proyectos Adicionales:**
+- **Deli T (IoT):** Solución de trazabilidad con NFC y filamentos biodegradables (5to lugar en competencia universitaria).
+
+**Habilidades:**
+- Lenguajes: Python (Avanzado), JavaScript (ES6+), C++, Java, SQL.
+- Web/Mobile: React, React Native, HTML, CSS.
+- IA/Data: TensorFlow, Keras, NumPy, Pandas.
+- Herramientas: Git/GitHub, Docker, Linux (Kali/Ubuntu), Arduino.
+- Idiomas: Español (Nativo), Inglés (B2+), Portugués (Básico).
+
+**Instrucciones Importantes:**
+- En la sección de AIYM, NO uses el término "Líder Técnico", enfócate en que fui una "Pieza clave del equipo" y detalla los tres desarrollos (App, Landing, Admin).
+- Asegúrate de que el sitio sea completamente "Mobile First".
