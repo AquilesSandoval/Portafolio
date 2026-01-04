@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { 
   Github, 
   Linkedin, 
@@ -16,7 +16,11 @@ import {
   User,
   Menu,
   X,
-  ChevronDown
+  ChevronDown,
+  GraduationCap,
+  Trophy,
+  Calendar,
+  MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +40,8 @@ import {
   SiPandas,
   SiNumpy,
   SiKeras,
-  SiLinux
+  SiLinux,
+  SiWhatsapp
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 import profileImage from "@assets/imagen_de_perfil_1767555239979.jpeg";
@@ -87,21 +92,21 @@ const projects = [
     id: 1,
     title: "AVOTEX - Detección de Enfermedades en Aguacates",
     description: "Aplicación móvil con IA para detectar enfermedades en cultivos de aguacate utilizando visión por computadora.",
-    technologies: ["TensorFlow", "Python", "React Native", "Deep Learning"],
+    technologies: ["Deep Learning", "TensorFlow", "Python", "React Native"],
     achievement: "Finalista Nacional InnovaTec 2025 | 1er Lugar Estatal"
   },
   {
     id: 2,
     title: "AIYM - Suite para Atletas",
     description: "Suite tecnológica completa para entrenamiento profesional de atletas: App móvil, Landing Page y Panel Administrativo.",
-    technologies: ["React", "React Native", "Full Stack", "UX/UI"],
+    technologies: ["Full Stack", "React", "React Native", "UX/UI"],
     achievement: "Empresa Internacional con sede en España"
   },
   {
     id: 3,
     title: "Deli T - Innovación en Materiales e IoT",
     description: "Solución innovadora integrando tecnología NFC con filamentos biodegradables para impresión 3D, enfocada en la trazabilidad de productos.",
-    technologies: ["IoT", "NFC", "Impresión 3D", "Arduino"],
+    technologies: ["IoT", "NFC", "Arduino", "Impresión 3D"],
     achievement: "5to Lugar en competencia universitaria"
   }
 ];
@@ -165,9 +170,53 @@ const navItems = [
   { label: "Contacto", href: "#contact" }
 ];
 
+function ReadingProgressBar() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (window.scrollY / scrollHeight) * 100;
+      setProgress(scrolled);
+    };
+    window.addEventListener("scroll", updateProgress);
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, []);
+
+  return (
+    <div className="fixed top-0 left-0 right-0 h-1 z-[100] bg-transparent">
+      <motion.div 
+        className="h-full bg-primary"
+        style={{ width: `${progress}%` }}
+        data-testid="reading-progress-bar"
+      />
+    </div>
+  );
+}
+
+function FloatingWhatsAppButton() {
+  return (
+    <motion.a
+      href="https://wa.me/524431347177"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[#25D366] text-white shadow-lg hover:shadow-xl transition-shadow"
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ delay: 1, type: "spring", stiffness: 200 }}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      data-testid="button-whatsapp"
+    >
+      <SiWhatsapp className="w-6 h-6" />
+    </motion.a>
+  );
+}
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <ReadingProgressBar />
       <Navigation />
       <HeroSection />
       <AboutSection />
@@ -175,6 +224,7 @@ export default function Home() {
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
+      <FloatingWhatsAppButton />
     </div>
   );
 }
@@ -197,9 +247,7 @@ function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-background/80 backdrop-blur-lg border-b border-border" : ""
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-xl border-b border-white/10"
       >
         <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <a href="#" className="text-lg font-bold" data-testid="link-home">
@@ -238,7 +286,7 @@ function Navigation() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg md:hidden pt-20"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden pt-20"
           >
             <nav className="flex flex-col items-center gap-6 p-8">
               {navItems.map((item) => (
@@ -262,7 +310,7 @@ function Navigation() {
 
 function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 py-20 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center px-6 pt-20 pb-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
@@ -324,22 +372,24 @@ function HeroSection() {
             </a>
           </Button>
         </motion.div>
-        
-        <motion.a
-          href="#about"
-          variants={fadeInUp}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-          data-testid="scroll-indicator"
-        >
-          <span className="text-sm">Ver más</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown className="w-6 h-6" />
-          </motion.div>
-        </motion.a>
       </motion.div>
+      
+      <motion.a
+        href="#about"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors z-10"
+        data-testid="scroll-indicator"
+      >
+        <span className="text-sm">Ver más</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-6 h-6" />
+        </motion.div>
+      </motion.a>
     </section>
   );
 }
@@ -348,7 +398,7 @@ function AboutSection() {
   return (
     <section id="about" className="py-20 px-6">
       <motion.div 
-        className="max-w-4xl mx-auto"
+        className="max-w-6xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -359,22 +409,103 @@ function AboutSection() {
           <h2 className="text-3xl sm:text-4xl font-semibold" data-testid="heading-about">Sobre Mí</h2>
         </div>
         
-        <Card data-testid="card-about">
-          <CardContent className="p-6 sm:p-8">
-            <p className="text-lg leading-relaxed text-muted-foreground" data-testid="text-about-description">
-              Estudiante de Ingeniería en Sistemas Computacionales con especialidad en Ciberseguridad 
-              en el Instituto Tecnológico de Morelia. Co-fundador de AVOTEX, una startup AgTech 
-              innovadora, y pieza clave en el desarrollo de soluciones tecnológicas para atletas 
-              de alto rendimiento a nivel internacional. Apasionado por la Inteligencia Artificial, 
-              el desarrollo Full Stack y la creación de productos que generen impacto real.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Badge variant="secondary" data-testid="badge-gpa">Promedio: 90.83/100</Badge>
-              <Badge variant="secondary" data-testid="badge-innovatec">Finalista Nacional InnovaTec 2025</Badge>
-              <Badge variant="secondary" data-testid="badge-graduation">Esperado: 2026</Badge>
+        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4" data-testid="bento-grid-about">
+          <motion.div 
+            className="md:col-span-2 lg:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="h-full p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10" data-testid="card-about-summary">
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                Estudiante de Ingeniería en Sistemas Computacionales con especialidad en Ciberseguridad 
+                en el Instituto Tecnológico de Morelia. Co-fundador de AVOTEX, una startup AgTech 
+                innovadora, y pieza clave en el desarrollo de soluciones tecnológicas para atletas 
+                de alto rendimiento a nivel internacional.
+              </p>
             </div>
-          </CardContent>
-        </Card>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="h-full p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10 flex flex-col items-center justify-center text-center" data-testid="card-about-location">
+              <MapPin className="w-8 h-8 text-primary mb-3" />
+              <p className="text-sm text-muted-foreground">Ubicación</p>
+              <p className="font-semibold">Morelia, Michoacán</p>
+              <p className="text-sm text-muted-foreground">México</p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="h-full p-6 rounded-xl bg-primary/10 backdrop-blur-sm border border-primary/20 flex flex-col items-center justify-center text-center" data-testid="card-about-gpa">
+              <GraduationCap className="w-8 h-8 text-primary mb-3" />
+              <p className="text-sm text-muted-foreground">Promedio</p>
+              <p className="text-2xl font-bold text-primary">90.83</p>
+              <p className="text-sm text-muted-foreground">/100</p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <div className="h-full p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10 flex flex-col items-center justify-center text-center" data-testid="card-about-graduation">
+              <Calendar className="w-8 h-8 text-primary mb-3" />
+              <p className="text-sm text-muted-foreground">Graduación</p>
+              <p className="text-2xl font-bold">2026</p>
+              <p className="text-sm text-muted-foreground">Esperada</p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="md:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="h-full p-6 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10 backdrop-blur-sm border border-primary/20" data-testid="card-about-achievement">
+              <div className="flex items-center gap-3 mb-3">
+                <Trophy className="w-8 h-8 text-primary" />
+                <div>
+                  <p className="font-semibold">Finalista Nacional</p>
+                  <p className="text-sm text-muted-foreground">InnovaTec 2025</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Reconocimiento por innovación en tecnología AgTech con AVOTEX, 
+                alcanzando el 1er lugar estatal y la final nacional.
+              </p>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="h-full p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10" data-testid="card-about-roles">
+              <p className="text-sm text-muted-foreground mb-2">Roles Actuales</p>
+              <div className="space-y-2">
+                <Badge variant="secondary" className="w-full justify-center">Co-Fundador</Badge>
+                <Badge variant="outline" className="w-full justify-center">Full Stack Dev</Badge>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );
@@ -404,40 +535,72 @@ function ExperienceSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="relative overflow-visible" data-testid={`card-experience-${exp.id}`}>
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-md" />
-                <CardHeader className="pb-2">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                    <div>
-                      <CardTitle className="text-xl sm:text-2xl" data-testid={`text-company-${exp.id}`}>{exp.company}</CardTitle>
-                      <p className="text-muted-foreground flex items-center gap-2 mt-1" data-testid={`text-location-${exp.id}`}>
-                        <MapPin className="w-4 h-4" />
-                        {exp.location}
-                      </p>
-                    </div>
-                    <Badge variant="outline" className="self-start whitespace-nowrap" data-testid={`badge-period-${exp.id}`}>
-                      {exp.period}
-                    </Badge>
+              <div className="relative p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10" data-testid={`card-experience-${exp.id}`}>
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-xl" />
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-semibold" data-testid={`text-company-${exp.id}`}>{exp.company}</h3>
+                    <p className="text-muted-foreground flex items-center gap-2 mt-1" data-testid={`text-location-${exp.id}`}>
+                      <MapPin className="w-4 h-4" />
+                      {exp.location}
+                    </p>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-lg font-medium text-primary mb-3" data-testid={`text-role-${exp.id}`}>{exp.role}</p>
-                  <p className="text-muted-foreground mb-4" data-testid={`text-description-${exp.id}`}>{exp.description}</p>
-                  <ul className="space-y-2">
-                    {exp.achievements.map((achievement, i) => (
-                      <li key={i} className="flex items-start gap-2" data-testid={`text-achievement-${exp.id}-${i}`}>
-                        <Award className="w-4 h-4 text-primary mt-1 shrink-0" />
-                        <span className="text-muted-foreground">{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                  <Badge variant="outline" className="self-start whitespace-nowrap" data-testid={`badge-period-${exp.id}`}>
+                    {exp.period}
+                  </Badge>
+                </div>
+                <p className="text-lg font-medium text-primary mb-3" data-testid={`text-role-${exp.id}`}>{exp.role}</p>
+                <p className="text-muted-foreground mb-4" data-testid={`text-description-${exp.id}`}>{exp.description}</p>
+                <ul className="space-y-2">
+                  {exp.achievements.map((achievement, i) => (
+                    <li key={i} className="flex items-start gap-2" data-testid={`text-achievement-${exp.id}-${i}`}>
+                      <Award className="w-4 h-4 text-primary mt-1 shrink-0" />
+                      <span className="text-muted-foreground">{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           ))}
         </div>
       </motion.div>
     </section>
+  );
+}
+
+function TiltCard({ children, className, ...props }: { children: React.ReactNode; className?: string; [key: string]: unknown }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 30 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) / rect.width);
+    y.set((e.clientY - centerY) / rect.height);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      className={className}
+      {...props}
+    >
+      {children}
+    </motion.div>
   );
 }
 
@@ -456,7 +619,7 @@ function ProjectsSection() {
           <h2 className="text-3xl sm:text-4xl font-semibold" data-testid="heading-projects">Proyectos Destacados</h2>
         </div>
         
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" style={{ perspective: "1000px" }}>
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -465,11 +628,9 @@ function ProjectsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full flex flex-col hover-elevate" data-testid={`card-project-${project.id}`}>
-                <CardHeader>
-                  <CardTitle className="text-lg" data-testid={`text-project-title-${project.id}`}>{project.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
+              <TiltCard className="h-full" data-testid={`card-project-${project.id}`}>
+                <div className="h-full flex flex-col p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10 hover:border-primary/30 transition-colors">
+                  <h3 className="text-lg font-semibold mb-3" data-testid={`text-project-title-${project.id}`}>{project.title}</h3>
                   <p className="text-muted-foreground mb-4 flex-1" data-testid={`text-project-description-${project.id}`}>{project.description}</p>
                   <div className="space-y-4">
                     <div className="flex flex-wrap gap-2">
@@ -484,8 +645,8 @@ function ProjectsSection() {
                       <span>{project.achievement}</span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </TiltCard>
             </motion.div>
           ))}
         </div>
@@ -495,29 +656,26 @@ function ProjectsSection() {
 }
 
 function TechLogoCarousel() {
-  const [isPaused, setIsPaused] = useState(false);
-  const duplicatedLogos = [...techLogos, ...techLogos];
+  const duplicatedLogos = [...techLogos, ...techLogos, ...techLogos];
 
   return (
     <div 
-      className="relative w-full overflow-hidden mb-12"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative w-full overflow-hidden mb-12 group"
       data-testid="carousel-tech-logos"
     >
-      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
       
       <motion.div
-        className="flex gap-8"
+        className="flex gap-12 group-hover:[animation-play-state:paused]"
         animate={{
-          x: isPaused ? undefined : [0, -50 * techLogos.length],
+          x: [0, -80 * techLogos.length],
         }}
         transition={{
           x: {
             repeat: Infinity,
             repeatType: "loop",
-            duration: 20,
+            duration: 30,
             ease: "linear",
           },
         }}
@@ -526,21 +684,16 @@ function TechLogoCarousel() {
         {duplicatedLogos.map((tech, index) => (
           <div
             key={`${tech.name}-${index}`}
-            className="flex flex-col items-center gap-2 min-w-[80px]"
+            className="flex flex-col items-center gap-3 min-w-[80px] group/logo"
             data-testid={`logo-${tech.name.toLowerCase()}-${index}`}
           >
-            <div 
-              className="p-4 rounded-md bg-card border border-border transition-all duration-300 hover:scale-110"
-              style={{ 
-                boxShadow: isPaused ? `0 0 20px ${tech.color}30` : 'none'
-              }}
-            >
+            <div className="p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10 transition-all duration-500 group-hover/logo:border-primary/30 group-hover/logo:shadow-lg">
               <tech.icon 
-                className="w-8 h-8 transition-colors duration-300" 
+                className="w-10 h-10 transition-all duration-500 grayscale group-hover/logo:grayscale-0" 
                 style={{ color: tech.color }}
               />
             </div>
-            <span className="text-xs text-muted-foreground whitespace-nowrap">{tech.name}</span>
+            <span className="text-xs text-muted-foreground whitespace-nowrap opacity-0 group-hover/logo:opacity-100 transition-opacity duration-300">{tech.name}</span>
           </div>
         ))}
       </motion.div>
@@ -574,56 +727,48 @@ function SkillsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full" data-testid={`card-skill-${category.id}`}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-md bg-primary/10">
-                      <category.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <CardTitle className="text-lg" data-testid={`text-skill-category-${category.id}`}>{category.title}</CardTitle>
+              <div className="h-full p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10" data-testid={`card-skill-${category.id}`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <category.icon className="w-5 h-5 text-primary" />
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill) => (
-                      <Badge key={skill} variant="outline" className="text-xs" data-testid={`badge-skill-${category.id}-${skill.replace(/[^a-zA-Z0-9]/g, '')}`}>
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  <h3 className="text-lg font-semibold" data-testid={`text-skill-category-${category.id}`}>{category.title}</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map((skill) => (
+                    <Badge key={skill} variant="outline" className="text-xs" data-testid={`badge-skill-${category.id}-${skill.replace(/[^a-zA-Z0-9]/g, '')}`}>
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
         
         <motion.div 
-          className="mt-12"
+          className="mt-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Card data-testid="card-languages">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-md bg-primary/10">
-                  <Globe className="w-5 h-5 text-primary" />
+          <div className="p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-white/10" data-testid="card-languages">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Globe className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold" data-testid="text-languages-title">Idiomas</h3>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {languages.map((lang) => (
+                <div key={lang.name} className="flex items-center gap-2" data-testid={`text-language-${lang.name}`}>
+                  <span className="font-medium">{lang.name}:</span>
+                  <Badge variant="secondary" data-testid={`badge-language-level-${lang.name}`}>{lang.level}</Badge>
                 </div>
-                <CardTitle className="text-lg" data-testid="text-languages-title">Idiomas</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-4">
-                {languages.map((lang) => (
-                  <div key={lang.name} className="flex items-center gap-2" data-testid={`text-language-${lang.name}`}>
-                    <span className="font-medium">{lang.name}:</span>
-                    <Badge variant="secondary" data-testid={`badge-language-level-${lang.name}`}>{lang.level}</Badge>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     </section>
