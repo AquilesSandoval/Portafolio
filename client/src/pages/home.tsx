@@ -21,7 +21,25 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { 
+  SiPython, 
+  SiJavascript, 
+  SiCplusplus, 
+  SiReact, 
+  SiTensorflow, 
+  SiDocker, 
+  SiGit,
+  SiHtml5,
+  SiCss3,
+  SiArduino,
+  SiPandas,
+  SiNumpy,
+  SiKeras,
+  SiLinux
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa";
+import profileImage from "@assets/imagen_de_perfil_1767555239979.jpeg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -119,6 +137,24 @@ const languages = [
   { name: "Español", level: "Nativo" },
   { name: "Inglés", level: "B2+" },
   { name: "Portugués", level: "Básico" }
+];
+
+const techLogos = [
+  { name: "Python", icon: SiPython, color: "#3776AB" },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+  { name: "C++", icon: SiCplusplus, color: "#00599C" },
+  { name: "Java", icon: FaJava, color: "#ED8B00" },
+  { name: "React", icon: SiReact, color: "#61DAFB" },
+  { name: "TensorFlow", icon: SiTensorflow, color: "#FF6F00" },
+  { name: "Docker", icon: SiDocker, color: "#2496ED" },
+  { name: "Git", icon: SiGit, color: "#F05032" },
+  { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
+  { name: "CSS3", icon: SiCss3, color: "#1572B6" },
+  { name: "Arduino", icon: SiArduino, color: "#00979D" },
+  { name: "Pandas", icon: SiPandas, color: "#150458" },
+  { name: "NumPy", icon: SiNumpy, color: "#013243" },
+  { name: "Keras", icon: SiKeras, color: "#D00000" },
+  { name: "Linux", icon: SiLinux, color: "#FCC624" },
 ];
 
 const navItems = [
@@ -239,6 +275,7 @@ function HeroSection() {
       >
         <motion.div variants={fadeInUp} className="mb-8">
           <Avatar className="w-32 h-32 mx-auto border-4 border-primary/20" data-testid="img-avatar">
+            <AvatarImage src={profileImage} alt="Paulo Aquiles Sandoval" className="object-cover" />
             <AvatarFallback className="text-4xl font-bold bg-primary/10 text-primary">
               PA
             </AvatarFallback>
@@ -457,6 +494,60 @@ function ProjectsSection() {
   );
 }
 
+function TechLogoCarousel() {
+  const [isPaused, setIsPaused] = useState(false);
+  const duplicatedLogos = [...techLogos, ...techLogos];
+
+  return (
+    <div 
+      className="relative w-full overflow-hidden mb-12"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      data-testid="carousel-tech-logos"
+    >
+      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      
+      <motion.div
+        className="flex gap-8"
+        animate={{
+          x: isPaused ? undefined : [0, -50 * techLogos.length],
+        }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 20,
+            ease: "linear",
+          },
+        }}
+        style={{ width: "fit-content" }}
+      >
+        {duplicatedLogos.map((tech, index) => (
+          <div
+            key={`${tech.name}-${index}`}
+            className="flex flex-col items-center gap-2 min-w-[80px]"
+            data-testid={`logo-${tech.name.toLowerCase()}-${index}`}
+          >
+            <div 
+              className="p-4 rounded-md bg-card border border-border transition-all duration-300 hover:scale-110"
+              style={{ 
+                boxShadow: isPaused ? `0 0 20px ${tech.color}30` : 'none'
+              }}
+            >
+              <tech.icon 
+                className="w-8 h-8 transition-colors duration-300" 
+                style={{ color: tech.color }}
+              />
+            </div>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">{tech.name}</span>
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 function SkillsSection() {
   return (
     <section id="skills" className="py-20 px-6 bg-card/30">
@@ -471,6 +562,8 @@ function SkillsSection() {
           <Wrench className="w-8 h-8 text-primary" />
           <h2 className="text-3xl sm:text-4xl font-semibold" data-testid="heading-skills">Habilidades Técnicas</h2>
         </div>
+        
+        <TechLogoCarousel />
         
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {skillCategories.map((category, index) => (
