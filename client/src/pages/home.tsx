@@ -123,7 +123,7 @@ const projects = [
     technologies: ["IoT", "NFC", "Arduino", "Impresión 3D"],
     achievement: "5to Lugar en competencia universitaria"
   },
-    {
+  {
     id: 4,
     title: "Desarrollo Full Stack de una plataforma de gestión empresarial (ERP) y Punto de Venta. Digitalización de inventarios, control de flujo de efectivo y optimización logística en tiempo real.",
     description: "ERP y POS ",
