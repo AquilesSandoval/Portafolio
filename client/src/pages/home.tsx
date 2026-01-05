@@ -75,6 +75,18 @@ const experiences = [
   },
   {
     id: 2,
+    company: "Central de Abastos Morelia",
+    location: "Morelia, MX",
+    period: "2025",
+    role: "Desarrollador Full Stack (Proyecto a Medida)",
+    description: "Colaboré en el diseño y desarrollo de un ecosistema de software a medida que incluye un sistema POS (Punto de Venta) y un ERP completo.",
+    achievements: [
+      "Trabajé en equipo para implementar estas herramientas que optimizaron la administración de recursos y el flujo de ventas, mejorando la eficiencia operativa.",
+      "Contribuí al análisis de flujos de trabajo operativos complejos para traducirlos en soluciones de software robustas y funcionales dentro de un entorno colaborativo."
+    ]
+  },
+  {
+    id: 3,
     company: "AVOTEX",
     location: "Morelia, MX",
     period: "Ene 2023 - Presente",
