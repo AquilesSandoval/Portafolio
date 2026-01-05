@@ -84,6 +84,20 @@ const experiences = [
       "Implementación de modelos de Deep Learning con TensorFlow y Python integrados en React Native.",
       "Ganador del 1er Lugar Estatal y Finalista Nacional en InnovaTec 2025."
     ]
+  },
+    {
+    id: 3,
+    company: "Central de Abastos de Morelia",
+    location: "Morelia, MX",
+    period: "2025",
+    role: "Desarrollador de ERP y POS",
+    description: "Startup AgTech enfocada en la detección de enfermedades en aguacates mediante IA.",
+    achievements: [
+      "Colaboré en el diseño y desarrollo de un ecosistema de software a medida que incluye un sistema PS (Punto de Venta) y un ERP completo",
+      "Contribuí al análisis de flujos de trabajo operativos complejos para traducirlos en soluciones de software robustas y funcionales dentro de un entorno colaborativo.",
+      "Trabajé en equipo para implementar estas herramientas que optimizaron la administración de recursos y el flujo de ventas, mejorando la eficiencia operativa."
+    ]
+
   }
 ];
 
