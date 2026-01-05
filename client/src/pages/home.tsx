@@ -91,7 +91,7 @@ const experiences = [
     location: "Morelia, MX",
     period: "2025",
     role: "Desarrollador de ERP y POS",
-    description: "Startup AgTech enfocada en la detección de enfermedades en aguacates mediante IA.",
+    description: "Programa hecho a la medida para nuestro cliente para poder vender, ver su inventario, analizar sus ventas, etc",
     achievements: [
       "Colaboré en el diseño y desarrollo de un ecosistema de software a medida que incluye un sistema PS (Punto de Venta) y un ERP completo",
       "Contribuí al análisis de flujos de trabajo operativos complejos para traducirlos en soluciones de software robustas y funcionales dentro de un entorno colaborativo.",
@@ -122,6 +122,13 @@ const projects = [
     description: "Solución innovadora integrando tecnología NFC con filamentos biodegradables para impresión 3D, enfocada en la trazabilidad de productos.",
     technologies: ["IoT", "NFC", "Arduino", "Impresión 3D"],
     achievement: "5to Lugar en competencia universitaria"
+  }
+    {
+    id: 4,
+    title: "Desarrollo Full Stack de una plataforma de gestión empresarial (ERP) y Punto de Venta. Digitalización de inventarios, control de flujo de efectivo y optimización logística en tiempo real.",
+    description: "ERP y POS ",
+    technologies: ["React", "JavaScript", "PostgresSql", "Arquitectura Web"],
+    achievement: "Implementación operativa real y mejora en la gestión de recursos"
   }
 ];
 
