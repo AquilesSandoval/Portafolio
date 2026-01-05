@@ -44,7 +44,7 @@ import {
   SiWhatsapp
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
-import profileImage from "../assets/imagen de perfil.jpeg";
+
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -323,7 +323,7 @@ function HeroSection() {
       >
         <motion.div variants={fadeInUp} className="mb-8">
           <Avatar className="w-32 h-32 mx-auto border-4 border-primary/20" data-testid="img-avatar">
-            <AvatarImage src={profileImage} alt="Paulo Aquiles Sandoval" className="object-cover" />
+            <AvatarImage src="/perfil.jpeg" alt="Paulo Aquiles Sandoval" className="object-cover" />
             <AvatarFallback className="text-4xl font-bold bg-primary/10 text-primary">
               PA
             </AvatarFallback>
