@@ -251,7 +251,7 @@ function Navigation() {
       >
         <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
           <a href="#" className="text-lg font-bold" data-testid="link-home">
-            PAS
+            PASM
           </a>
           
           <ul className="hidden md:flex items-center gap-6">
