@@ -44,7 +44,7 @@ import {
   SiWhatsapp
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
-import profileImage from "@assets/imagen_de_perfil_1767555239979.jpeg";
+import profileImage from "../assets/imagen de perfil.jpeg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
