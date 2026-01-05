@@ -122,7 +122,7 @@ const projects = [
     description: "Solución innovadora integrando tecnología NFC con filamentos biodegradables para impresión 3D, enfocada en la trazabilidad de productos.",
     technologies: ["IoT", "NFC", "Arduino", "Impresión 3D"],
     achievement: "5to Lugar en competencia universitaria"
-  }
+  },
     {
     id: 4,
     title: "Desarrollo Full Stack de una plataforma de gestión empresarial (ERP) y Punto de Venta. Digitalización de inventarios, control de flujo de efectivo y optimización logística en tiempo real.",
